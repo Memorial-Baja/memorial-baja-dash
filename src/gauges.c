@@ -6,8 +6,8 @@
 void DrawCircularGauge(Vector2 gaugeCenter) {
     float innerRadius = 195.0f;
     float outerRadius = 200.0f;
-    float startAngle = -40.0f;
-    float endAngle = -320.0f;
+    float startAngle = 50.0f;
+    float endAngle = -230.0f;
     int segments = 180;
 
     DrawRing(gaugeCenter, innerRadius, outerRadius, startAngle, endAngle, segments, SKYBLUE);
@@ -18,13 +18,13 @@ void DrawCircularGauge(Vector2 gaugeCenter) {
 void DrawSemiCircularGauge(Vector2 gaugeCenter, bool left) {
     float innerRadius = 205.0f;
     float outerRadius = 215.0f;
-    float startAngle = -220.0f;
-    float endAngle = -320.0f;
+    float startAngle = 130.0f;
+    float endAngle = 230.0f;
     int segments = 180;
 
-    if (!left) {
-        startAngle *= -1;
-        endAngle *= -1;
+    if (left) {
+        startAngle -= -180;
+        endAngle -= -180;
     }
 
     DrawRing(gaugeCenter, innerRadius, outerRadius, startAngle, endAngle, segments, WHITE);

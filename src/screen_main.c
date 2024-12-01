@@ -16,20 +16,20 @@ float temp = 0;
 float voltage = 6;
 bool maxAngle = false;
 
-// Title Screen Initialization logic
-void InitTitleScreen(void) {
+// Main Screen Initialization logic
+void InitMainScreen(void) {
     // TODO: Initialize TITLE screen variables here!
     framesCounter = 0;
     finishScreen = 0;
 }
 
-// Title Screen Update logic
-void UpdateTitleScreen(void) {
+// Main Screen Update logic
+void UpdateMainScreen(void) {
     // TODO: Update TITLE screen variables here!
 }
 
-// Title Screen Draw logic
-void DrawTitleScreen(void) {
+// Main Screen Draw logic
+void DrawMainScreen(void) {
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), BLACK);
 
     // LEFT HAND SIDE ( RPM )
@@ -100,15 +100,15 @@ void DrawTitleScreen(void) {
         rpm += 100;
     }
 
-    DrawFPS(1, 1);
+    // DrawFPS(1, 1);
 }
 
-// Title Screen Unload logic
-void UnloadTitleScreen(void) {
+// Main Screen Unload logic
+void UnloadMainScreen(void) {
     // TODO: Unload TITLE screen variables here!
 }
 
-// Title Screen should finish?
-int FinishTitleScreen(void) {
+// Main Screen should finish?
+int FinishMainScreen(void) {
     return finishScreen;
 }

@@ -73,7 +73,7 @@ int main(void)
     switch (currentScreen)
     {
         case LOGO: UnloadLogoScreen(); break;
-        case TITLE: UnloadTitleScreen(); break;
+        case MAIN: UnloadMainScreen(); break;
         default: break;
     }
 
@@ -98,7 +98,7 @@ static void ChangeToScreen(GameScreen screen)
     switch (currentScreen)
     {
         case LOGO: UnloadLogoScreen(); break;
-        case TITLE: UnloadTitleScreen(); break;
+        case MAIN: UnloadMainScreen(); break;
         default: break;
     }
 
@@ -106,7 +106,7 @@ static void ChangeToScreen(GameScreen screen)
     switch (screen)
     {
         case LOGO: InitLogoScreen(); break;
-        case TITLE: InitTitleScreen(); break;
+        case MAIN: InitMainScreen(); break;
         default: break;
     }
 
@@ -140,7 +140,7 @@ static void UpdateTransition(void)
             switch (transFromScreen)
             {
                 case LOGO: UnloadLogoScreen(); break;
-                case TITLE: UnloadTitleScreen(); break;
+                case MAIN: UnloadMainScreen(); break;
                 default: break;
             }
 
@@ -148,7 +148,7 @@ static void UpdateTransition(void)
             switch (transToScreen)
             {
                 case LOGO: InitLogoScreen(); break;
-                case TITLE: InitTitleScreen(); break;
+                case MAIN: InitMainScreen(); break;
                 default: break;
             }
 
@@ -193,12 +193,12 @@ static void UpdateDrawFrame(void)
             {
                 UpdateLogoScreen();
 
-                if (FinishLogoScreen()) TransitionToScreen(TITLE);
+                if (FinishLogoScreen()) TransitionToScreen(MAIN);
 
             } break;
-            case TITLE:
+            case MAIN:
             {
-                UpdateTitleScreen();
+                UpdateMainScreen();
             } break;
             default: break;
         }
@@ -215,7 +215,7 @@ static void UpdateDrawFrame(void)
         switch(currentScreen)
         {
             case LOGO: DrawLogoScreen(); break;
-            case TITLE: DrawTitleScreen(); break;
+            case MAIN: DrawMainScreen(); break;
             default: break;
         }
 

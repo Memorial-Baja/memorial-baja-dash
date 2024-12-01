@@ -2,6 +2,9 @@
 	"files.associations": {
 		"raylib.h": "c",
 		"gauges.h": "c",
-		"screens.h": "c"
+		"screens.h": "c",
+		"stdio.h": "c",
+		"math.h": "c",
+		"rlgl.h": "c"
 	}
 }
