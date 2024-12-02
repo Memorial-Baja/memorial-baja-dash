@@ -3,16 +3,35 @@
 #include "rlgl.h"
 #include <math.h>
 
-void DrawCircularGauge(Vector2 gaugeCenter) {
+void DrawCircularGauge(Vector2 gaugeCenter, int* metric, int metricMax, const char *metricLabel, Font *font) {
     float innerRadius = 195.0f;
     float outerRadius = 200.0f;
     float startAngle = 50.0f;
     float endAngle = -230.0f;
     int segments = 180;
-
+    static float heightOffset = 30.0f;
+    
+    DrawCircle(gaugeCenter.x, gaugeCenter.y, 210, BLACK);
+    DrawNeedle(gaugeCenter, *metric, metricMax);
     DrawRing(gaugeCenter, innerRadius, outerRadius, startAngle, endAngle, segments, SKYBLUE);
     DrawRing(gaugeCenter, innerRadius-10, outerRadius-10, startAngle, endAngle, segments, WHITE);
     DrawRing(gaugeCenter, innerRadius-100, outerRadius-100, startAngle+22.5, endAngle-22.5, segments, SKYBLUE);
+    DrawTextEx(
+        *font,
+        metricLabel,
+        (Vector2){ (gaugeCenter.x-(MeasureTextEx(*font, metricLabel, 24, 2).x)/2.0f), (((GetScreenHeight())/2.0f)+30.0f)+heightOffset },
+        24,
+        2,
+        RAYWHITE
+    );
+        DrawTextEx(
+        *font,
+        TextFormat("%i", *metric),
+        (Vector2){ (gaugeCenter.x-(MeasureTextEx(*font, TextFormat("%i", *metric), 64, 2).x)/2.0f), (((GetScreenHeight())/2.0f)-35.0f)+heightOffset },
+        64,
+        2,
+        RAYWHITE
+    );
 }
 
 void DrawSemiCircularGauge(Vector2 gaugeCenter, bool left) {
@@ -103,4 +122,20 @@ void calculateRPMLocations(double centerX, double centerY, double radius, double
         );
         initRPM += 1;
 	}
+}
+
+void gaugeSweep(int *speed, int *rpm, int speedMax, bool *maxAngle, bool *sweepFinished) {
+    if (*speed == speedMax && !*maxAngle) {
+        *maxAngle = true;
+    } else if (*speed <= 0 && *maxAngle) {
+        *speed = 0;
+        *rpm = 0;
+        *sweepFinished = true;
+    } else if (*speed <= speedMax && *maxAngle) {
+        *speed -= 1;
+        *rpm -= 66;
+    } else if(!*maxAngle) {
+        *speed += 1;
+        *rpm += 66;
+    }
 }
