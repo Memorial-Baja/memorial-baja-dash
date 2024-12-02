@@ -1,9 +1,22 @@
 #include "gauges.h"
-#include "raylib.h"
-#include "rlgl.h"
+#include <raylib.h>
+#include <rlgl.h>
 #include <math.h>
 
-void DrawCircularGauge(Vector2 gaugeCenter, int* metric, int metricMax, const char *metricLabel, Font *font) {
+void DrawNeedle(Vector2 gaugeCenter, int measurement, int maxMeasurement) {
+    float startAngle = 225.0f;
+    float endAngle = -40.0f;
+    float angle = startAngle - ((startAngle - endAngle) * measurement/maxMeasurement);
+
+    rlPushMatrix();
+        rlTranslatef(gaugeCenter.x, gaugeCenter.y, 0);
+        rlRotatef(angle, 0, 0, -1);
+        DrawRectangle(0, 0, 165, 5, RED);
+    rlPopMatrix();
+    DrawCircle(gaugeCenter.x, gaugeCenter.y, 95, BLACK);
+}
+
+void DrawCircularGauge(Vector2 gaugeCenter, int* metric, int metricMax, const char *unitLabel, Font *font) {
     float innerRadius = 195.0f;
     float outerRadius = 200.0f;
     float startAngle = 50.0f;
@@ -18,8 +31,8 @@ void DrawCircularGauge(Vector2 gaugeCenter, int* metric, int metricMax, const ch
     DrawRing(gaugeCenter, innerRadius-100, outerRadius-100, startAngle+22.5, endAngle-22.5, segments, SKYBLUE);
     DrawTextEx(
         *font,
-        metricLabel,
-        (Vector2){ (gaugeCenter.x-(MeasureTextEx(*font, metricLabel, 24, 2).x)/2.0f), (((GetScreenHeight())/2.0f)+30.0f)+heightOffset },
+        unitLabel,
+        (Vector2){ (gaugeCenter.x-(MeasureTextEx(*font, unitLabel, 24, 2).x)/2.0f), (((GetScreenHeight())/2.0f)+30.0f)+heightOffset },
         24,
         2,
         RAYWHITE
@@ -47,19 +60,6 @@ void DrawSemiCircularGauge(Vector2 gaugeCenter, bool left) {
     }
 
     DrawRing(gaugeCenter, innerRadius, outerRadius, startAngle, endAngle, segments, WHITE);
-}
-
-void DrawNeedle(Vector2 gaugeCenter, int measurement, int maxMeasurement) {
-    float startAngle = 225.0f;
-    float endAngle = -40.0f;
-    float angle = startAngle - ((startAngle - endAngle) * measurement/maxMeasurement);
-
-    rlPushMatrix();
-        rlTranslatef(gaugeCenter.x, gaugeCenter.y, 0);
-        rlRotatef(angle, 0, 0, -1);
-        DrawRectangle(0, 0, 165, 5, RED);
-    rlPopMatrix();
-    DrawCircle(gaugeCenter.x, gaugeCenter.y, 95, BLACK);
 }
 
 void calculateSpeedLocations(double centerX, double centerY, double radius, double startAngle, double endAngle, Font *font) {
@@ -133,9 +133,9 @@ void gaugeSweep(int *speed, int *rpm, int speedMax, bool *maxAngle, bool *sweepF
         *sweepFinished = true;
     } else if (*speed <= speedMax && *maxAngle) {
         *speed -= 1;
-        *rpm -= 66;
+        *rpm -= 67;
     } else if(!*maxAngle) {
         *speed += 1;
-        *rpm += 66;
+        *rpm += 67;
     }
 }

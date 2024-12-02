@@ -1,10 +1,8 @@
-#include "raylib.h"
+#include <raylib.h>
 
-void DrawCircularGauge(Vector2 gaugeCenter, int *metric, int metricMax, const char *metricLabel, Font *font);
+void DrawCircularGauge(Vector2 gaugeCenter, int *metric, int metricMax, const char *unitLabel, Font *font);
 
 void DrawSemiCircularGauge(Vector2 gaugeCenter, bool left);
-
-void DrawNeedle(Vector2 gaugeCenter, int measurement, int maxMeasurement);
 
 void calculateSpeedLocations(double centerX, double centerY, double radius, double startAngle, double endAngle, Font *font);
 

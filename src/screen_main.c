@@ -4,6 +4,7 @@
 #include <rlgl.h>
 #include "screens.h"
 #include "gauges.h"
+#include "debug.h"
 
 static int framesCounter = 0;
 static int finishScreen = 0;
@@ -26,6 +27,7 @@ void InitMainScreen(void) {
 // Main Screen Update logic
 void UpdateMainScreen(void) {
     if (!sweepFinished) gaugeSweep(&speed, &rpm, speedMax, &maxAngle, &sweepFinished);
+    if (DEBUG) debugGaugeControls(&speed, &rpm);
 }
 
 // Main Screen Draw logic
@@ -45,8 +47,6 @@ void DrawMainScreen(void) {
     DrawCircularGauge(rpmCenter, &rpm, rpmMax, "RPM", &font);
     DrawSemiCircularGauge(rpmCenter, false);
     calculateRPMLocations(rpmCenter.x, rpmCenter.y-10, 160, -223.5f, 41.5f, &font);
-
-    // DrawFPS(1, 1);
 }
 
 // Main Screen Unload logic

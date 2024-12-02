@@ -1,3 +1,4 @@
+#include <string.h>     // Required for: strcmp()
 #include "raylib.h"
 #include "screens.h"    // NOTE: Declares global (extern) variables and screens functions
 
@@ -11,6 +12,7 @@
 //----------------------------------------------------------------------------------
 GameScreen currentScreen = LOGO;
 Font font = { 0 };
+bool DEBUG = false;
 
 //----------------------------------------------------------------------------------
 // Local Variables Definition (local to this module)
@@ -39,10 +41,16 @@ static void UpdateDrawFrame(void);          // Update and draw one frame
 //----------------------------------------------------------------------------------
 // Main entry point
 //----------------------------------------------------------------------------------
-int main(void)
+int main(int argc, char **argv)
 {
     // Initialization
     //---------------------------------------------------------
+    if (argc > 1) {
+        if (strcmp(argv[1], "DEBUG") == 0) {
+            DEBUG = true;
+        }
+    }
+
     InitWindow(screenWidth, screenHeight, "Memorial Baja Dashboard");
 
     InitAudioDevice();      // Initialize audio device
@@ -51,7 +59,8 @@ int main(void)
     font = LoadFontEx("resources/Roboto-Bold.ttf", 128, 0, 250);
 
     // Setup and init first screen
-    currentScreen = LOGO;
+    if (!DEBUG) currentScreen = LOGO;
+    else currentScreen = MAIN;
     InitLogoScreen();
 
 #if defined(PLATFORM_WEB)
@@ -222,7 +231,11 @@ static void UpdateDrawFrame(void)
         // Draw full screen rectangle in front of everything
         if (onTransition) DrawTransition();
 
-        //DrawFPS(10, 10);
+        if (DEBUG) {
+            DrawFPS(10, 10);
+            DrawText(TextFormat("Current screen: %i", currentScreen), 10, 30, 10, MAROON);
+            DrawText("DEBUG MODE", GetScreenWidth() - 100, 10, 10, RED);
+        }
 
     EndDrawing();
     //----------------------------------------------------------------------------------
