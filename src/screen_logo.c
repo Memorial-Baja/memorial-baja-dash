@@ -25,6 +25,7 @@
 
 #include "raylib.h"
 #include "screens.h"
+#include <stdio.h>
 
 //----------------------------------------------------------------------------------
 // Module Variables Definition (local)
@@ -66,6 +67,9 @@ void DrawLogoScreen(void) {
 
 // Logo Screen Unload logic
 void UnloadLogoScreen(void) {
+    UnloadImage(logo);
+    UnloadTexture(texture);
+    printf("LOGO SCREEN UNLOADED\n");
     // Unload LOGO screen variables here!
 }
 

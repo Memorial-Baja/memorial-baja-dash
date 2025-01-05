@@ -29,7 +29,7 @@
 //----------------------------------------------------------------------------------
 // Types and Structures Definition
 //----------------------------------------------------------------------------------
-typedef enum GameScreen { UNKNOWN = -1, LOGO = 0, MAIN } GameScreen;
+typedef enum GameScreen { UNKNOWN = -1, LOGO = 0, MAIN, FLAPPY } GameScreen;
 
 //----------------------------------------------------------------------------------
 // Global Variables Declaration (shared by several modules)
@@ -59,6 +59,15 @@ void UpdateMainScreen(void);
 void DrawMainScreen(void);
 void UnloadMainScreen(void);
 int FinishMainScreen(void);
+
+//----------------------------------------------------------------------------------
+// Flappy Screen Functions Declaration
+//----------------------------------------------------------------------------------
+void InitFlappyScreen(void);
+void UpdateFlappyScreen(void);
+void DrawFlappyScreen(void);
+void UnloadFlappyScreen(void);
+int FinishFlappyScreen(void);
 
 #ifdef __cplusplus
 }

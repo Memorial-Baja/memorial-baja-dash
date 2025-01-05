@@ -101,7 +101,7 @@ void calculateRPMLocations(double centerX, double centerY, double radius, double
     int initRPM = 0;
 
 	// Calculate the number of steps
-	int numSteps = 5;
+	int numSteps = 4;
 
 	// Calculate the angle increment per step
 	double angleIncrement = (endAngle - startAngle) / numSteps;
@@ -133,9 +133,9 @@ void gaugeSweep(int *speed, int *rpm, int speedMax, bool *maxAngle, bool *sweepF
         *sweepFinished = true;
     } else if (*speed <= speedMax && *maxAngle) {
         *speed -= 1;
-        *rpm -= 67;
+        *rpm -= 53;
     } else if(!*maxAngle) {
         *speed += 1;
-        *rpm += 67;
+        *rpm += 53;
     }
 }

@@ -10,7 +10,7 @@ static int framesCounter = 0;
 static int finishScreen = 0;
 static float heightOffset = 30.0f;
 int rpm = 0;
-const int rpmMax = 5000;
+const int rpmMax = 4000;
 int speed = 0;
 const int speedMax = 75;
 float temp = 0;
@@ -28,6 +28,7 @@ void InitMainScreen(void) {
 void UpdateMainScreen(void) {
     if (!sweepFinished) gaugeSweep(&speed, &rpm, speedMax, &maxAngle, &sweepFinished);
     if (DEBUG) debugGaugeControls(&speed, &rpm);
+    if (IsKeyPressed(KEY_BACKSPACE)) currentScreen = FLAPPY;
 }
 
 // Main Screen Draw logic

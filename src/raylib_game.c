@@ -30,9 +30,9 @@ static GameScreen transToScreen = UNKNOWN;
 //----------------------------------------------------------------------------------
 // Local Functions Declaration
 //----------------------------------------------------------------------------------
-static void ChangeToScreen(int screen);     // Change to screen, no transition effect
+static void ChangeToScreen(GameScreen screen);     // Change to screen, no transition effect
 
-static void TransitionToScreen(int screen); // Request transition to next screen
+static void TransitionToScreen(GameScreen screen); // Request transition to next screen
 static void UpdateTransition(void);         // Update transition effect
 static void DrawTransition(void);           // Draw transition effect (full-screen rectangle)
 
@@ -59,9 +59,14 @@ int main(int argc, char **argv)
     font = LoadFontEx("resources/Roboto-Bold.ttf", 128, 0, 250);
 
     // Setup and init first screen
-    if (!DEBUG) currentScreen = LOGO;
-    else currentScreen = MAIN;
-    InitLogoScreen();
+    if (!DEBUG) {
+        currentScreen = LOGO;
+        InitLogoScreen();
+    } else {
+        currentScreen = MAIN;
+        InitMainScreen();
+    }
+    
 
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 60, 1);
@@ -72,6 +77,9 @@ int main(int argc, char **argv)
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
+        if (DEBUG && IsKeyPressed(KEY_ONE)) ChangeToScreen(LOGO);
+        if (DEBUG && IsKeyPressed(KEY_TWO)) ChangeToScreen(MAIN);
+        if (DEBUG && IsKeyPressed(KEY_THREE)) ChangeToScreen(FLAPPY);
         UpdateDrawFrame();
     }
 #endif
@@ -83,6 +91,7 @@ int main(int argc, char **argv)
     {
         case LOGO: UnloadLogoScreen(); break;
         case MAIN: UnloadMainScreen(); break;
+        case FLAPPY: UnloadFlappyScreen(); break;
         default: break;
     }
 
@@ -108,6 +117,7 @@ static void ChangeToScreen(GameScreen screen)
     {
         case LOGO: UnloadLogoScreen(); break;
         case MAIN: UnloadMainScreen(); break;
+        case FLAPPY: UnloadFlappyScreen(); break;
         default: break;
     }
 
@@ -116,6 +126,7 @@ static void ChangeToScreen(GameScreen screen)
     {
         case LOGO: InitLogoScreen(); break;
         case MAIN: InitMainScreen(); break;
+        case FLAPPY: InitFlappyScreen(); break;
         default: break;
     }
 
@@ -150,6 +161,7 @@ static void UpdateTransition(void)
             {
                 case LOGO: UnloadLogoScreen(); break;
                 case MAIN: UnloadMainScreen(); break;
+                case FLAPPY: UnloadFlappyScreen(); break;
                 default: break;
             }
 
@@ -158,6 +170,7 @@ static void UpdateTransition(void)
             {
                 case LOGO: InitLogoScreen(); break;
                 case MAIN: InitMainScreen(); break;
+                case FLAPPY: InitFlappyScreen(); break;
                 default: break;
             }
 
@@ -209,6 +222,10 @@ static void UpdateDrawFrame(void)
             {
                 UpdateMainScreen();
             } break;
+            case FLAPPY:
+            {
+                UpdateFlappyScreen();
+            } break;
             default: break;
         }
     }
@@ -225,6 +242,7 @@ static void UpdateDrawFrame(void)
         {
             case LOGO: DrawLogoScreen(); break;
             case MAIN: DrawMainScreen(); break;
+            case FLAPPY: DrawFlappyScreen(); break;
             default: break;
         }
 
