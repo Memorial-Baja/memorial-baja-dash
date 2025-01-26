@@ -36,7 +36,6 @@ PROJECT_SOURCE_FILES  ?= \
     raylib_game.c \
     screen_logo.c \
     screen_main.c \
-    screen_flappy.c \
     gauges.c
 
 # raylib library variables
