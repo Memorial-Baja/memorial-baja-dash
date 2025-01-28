@@ -27,6 +27,7 @@
 #------------------------------------------------------------------------------------------------
 # Define target platform: PLATFORM_DESKTOP, PLATFORM_WEB, PLATFORM_DRM, PLATFORM_ANDROID
 PLATFORM              ?= PLATFORM_DRM
+GRAPHICS             ?= GRAPHICS_API_OPENGL_21
 
 # Define project variables
 PROJECT_NAME          ?= raylib_game
