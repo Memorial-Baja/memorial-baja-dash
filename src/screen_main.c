@@ -6,7 +6,7 @@
 #include "screens.h"
 #include "gauges.h"
 #include "debug.h"
-#include "dash-sensing.h"
+#include "dash_sensing.h"
 
 static int framesCounter = 0;
 static int finishScreen = 0;
@@ -30,6 +30,7 @@ void InitMainScreen(void) {
     finishScreen = 0;
     currentHighTime = time(NULL);
     prevHighTime = time(NULL);
+    initialize_gpio();
 }
 
 // Main Screen Update logic
@@ -37,7 +38,7 @@ void UpdateMainScreen(void) {
     if (!sweepFinished) gaugeSweep(&speed, &rpm, speedMax, &maxAngle, &sweepFinished);
     if (DEBUG) debugGaugeControls(&speed, &rpm);
     if (IsKeyPressed(KEY_BACKSPACE)) currentScreen = FLAPPY;
-    int value = dash_read();
+    int value = gpio_read();
     if (prevValue != value) {
         if (value == 1) {
             prevHighTime = currentHighTime;
