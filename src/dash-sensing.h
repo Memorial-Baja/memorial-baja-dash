@@ -1,1 +1,0 @@
-int dash_read();
