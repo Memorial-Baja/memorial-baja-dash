@@ -1,1 +1,2 @@
-int dash_read();
+int initialize_gpio();
+int gpio_read();

@@ -2,17 +2,17 @@
 #include <stdio.h>
 #include <unistd.h>
 
-int dash_read() {
-    const char *chipname = "gpiochip0"; // GPIO chip name
-    struct gpiod_chip *chip;
-    struct gpiod_line *line;
-    int line_num = 27; // GPIO pin number (e.g., GPIO27)
-    int value;
+const char *chipname = "gpiochip0"; // GPIO chip name
+struct gpiod_chip *chip;
+struct gpiod_line *line;
+int line_num = 27; // GPIO pin number (e.g., GPIO27)
 
+int initialize_gpio() {
     // Open the GPIO chip
     chip = gpiod_chip_open_by_name(chipname);
     if (!chip) {
         perror("Error opening GPIO chip");
+        return -1;
     }
 
     // Open the GPIO line
@@ -20,6 +20,7 @@ int dash_read() {
     if (!line) {
         perror("Error getting GPIO line");
         gpiod_chip_close(chip);
+        return -1;
     }
 
     // Request the line as input
@@ -27,19 +28,13 @@ int dash_read() {
         perror("Error requesting GPIO line as input");
         gpiod_line_release(line);
         gpiod_chip_close(chip);
+        return -1;
     }
 
-    // Read the GPIO value
-    value = gpiod_line_get_value(line);
-    if (value < 0) {
-        perror("Error reading GPIO value");
-        gpiod_line_release(line);
-        gpiod_chip_close(chip);
-    }
+    return 0;
+}
 
+int gpio_read() {
+    int value = gpiod_line_get_value(line);
     return value;
-
-    // Release the line and close the chip
-    gpiod_line_release(line);
-    gpiod_chip_close(chip);
 }
