@@ -2,13 +2,16 @@
 #include <math.h>
 #include <raylib.h>
 #include <rlgl.h>
+#include <time.h>
 #include "screens.h"
 #include "gauges.h"
 #include "debug.h"
+#include "dash-sensing.h"
 
 static int framesCounter = 0;
 static int finishScreen = 0;
 static float heightOffset = 30.0f;
+const float distanceTraveled = 0.0000602138f;
 int rpm = 0;
 const int rpmMax = 4000;
 int speed = 0;
@@ -17,11 +20,16 @@ float temp = 0;
 float voltage = 6;
 bool maxAngle = false;
 bool sweepFinished = false;
+int prevValue = 1;
+int currentHighTime;
+int prevHighTime;
 
 // Main Screen Initialization logic
 void InitMainScreen(void) {
     framesCounter = 0;
     finishScreen = 0;
+    currentHighTime = time(NULL);
+    prevHighTime = time(NULL);
 }
 
 // Main Screen Update logic
@@ -29,6 +37,17 @@ void UpdateMainScreen(void) {
     if (!sweepFinished) gaugeSweep(&speed, &rpm, speedMax, &maxAngle, &sweepFinished);
     if (DEBUG) debugGaugeControls(&speed, &rpm);
     if (IsKeyPressed(KEY_BACKSPACE)) currentScreen = FLAPPY;
+    int value = dash_read();
+    if (prevValue != value) {
+        if (value == 1) {
+            prevHighTime = currentHighTime;
+            currentHighTime = time(NULL);
+        }
+        prevValue = value;
+    }
+    if (currentHighTime - prevHighTime > 0) {
+        speed = distanceTraveled / (currentHighTime - prevHighTime);
+    }
 }
 
 // Main Screen Draw logic
