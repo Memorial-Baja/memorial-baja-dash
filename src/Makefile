@@ -39,6 +39,7 @@ PROJECT_SOURCE_FILES  ?= \
     screen_main.c \
     screen_flappy.c \
     debug.c \
+    dash_sensing.c \
     gauges.c
 
 # raylib library variables
